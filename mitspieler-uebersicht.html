@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel EM Tippspiel 2024</title>
+    <meta name="description" content="Excel EM Tippspiel 2024 by www.makro-excel.de">
+    <meta name="robots" content="follow">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="css/jquery.dataTables.min.css" rel="stylesheet"/>
+</head>
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header"><a class="navbar-brand navbar-link" href="em-tippspiel-2024.html"><i class="fa fa-soccer-ball-o"></i> Excel EM Tippspiel 2024</a>
+                <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+            </div>
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li role="presentation"><a href="em-tippspiel-2024.html">Spielplan </a></li>
+                    <li role="presentation"><a href="spielstand.html">Spielstand </a></li>
+                    <li class="active" role="presentation"><a href="mitspieler-uebersicht.html">Mitspieler </a></li>
+                    <li role="presentation"><a href="regeln.html">Regeln </a></li>
+                    <li role="presentation"><a href="https://www.amexio.de/" target="_blank" title="Gutscheintabelle">Gutscheine </a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container"><img class="img-responsive" src="https://www.makro-excel.de/bilder/fan_header.jpg" alt="Fussballfan im Station"></div>
+    <div class="container">
+        <ol class="breadcrumb">
+            <li><a href="em-tippspiel-2024.html"><span>Home</span></a></li>
+            <li class="active"><span>Mitspieler </span></li>
+        </ol>
+    </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="top2 white">Mitspieler</h2>
+                </div>
+                <div class="col-md-3">
+                    <h2><a href="Markus.html"><img src="https://www.makro-excel.de/bilder/profilbild.jpg" class="abstand3">Markus</a></h2>
+                </div>
+            </div>
+        </div>
+    <section class="features">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Die Spielregeln</h2>
+                    <p class="white">Die Punktevergabe kann die Tippgemeinschaft bei Bedarf selbstständig anpassen. Optional können zudem Punkte für bestimmte Sondertipps vergeben werden. Zu den vollständigen <a href="regeln.html">Spielregeln </a>.</p>
+                </div>
+                <div class="col-md-6">
+                    <div class="row icon-features">
+                        <div class="col-xs-4 icon-feature white"><a href="regeln.html"><i class="glyphicon glyphicon-info-sign"></i><p>Regeln &amp; Rechte</p></a></div>
+                        <div class="col-xs-4 icon-feature white"><a href="spielstand.html"><i class="glyphicon glyphicon-list"></i><p>Spielstand </p></a></div>
+                        <div class="col-xs-4 icon-feature white"><a href="mitspieler-uebersicht.html"><i class="glyphicon glyphicon-user"></i><p>Mitspieler </p></a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    <a href="https://www.makro-excel.de" target="_blank"><img src="https://www.makro-excel.de/bilder/makro-excel-em.gif" class="abstand3"></a></div>
+                <div class="col-sm-3">
+                    <h5><a href="https://www.makro-excel.de" target="_blank">www.makro-excel.de </a> ©2024</h5></div>
+                <div class="col-sm-3">
+                    <h5><a href="impressum.html">Impressum </a> </h5></div>
+                <div class="col-sm-3 social-icons"><a href="https://www.facebook.com/MakroExcel/" target="_blank"><i class="fa fa-facebook"></i></a><a href="https://twitter.com/excelmakro" target="_blank"><i class="fa fa-twitter"></i></a><a href="https://www.instagram.com/excel_makro/" target="_blank"><i class="fa fa-instagram"></i></a></div>
+            </div>
+        </div>
+    </footer>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery.dataTables.min.de.js"></script>
+    <script src="js/dataTables.responsive.min.js"></script>
+    <script src="js/responsive.bootstrap.min.js"></script>
+    <script type="text/javascript">
+            $(document).ready(function() {
+     $('#dyn_tabelle').DataTable( {
+        "Order": [0, 'asc' ],
+        responsive: true
+    } );
+    });
+    </script>
+</body>
+</html>

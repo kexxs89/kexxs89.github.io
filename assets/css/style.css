@@ -1,0 +1,239 @@
+.navbar {
+  margin-bottom:0;
+  border:none;
+}
+
+.navbar-brand .glyphicon {
+  margin-right:6px;
+}
+
+.hero {
+  /*background:url(city_bg.jpg) no-repeat center;*/
+  background-size:cover;
+  border:none;
+}
+
+@media (min-width:992px) {
+  .hero .get-it {
+    text-align:right;
+    margin-top:80px;
+    padding-right:30px;
+  }
+}
+
+@media (max-width:992px) {
+  .hero .get-it {
+    text-align:center;
+  }
+}
+
+@media (max-width:992px) {
+  .hero .phone-preview {
+    text-align:center;
+  }
+}
+
+.hero .get-it h1, .hero .get-it p {
+  color:#fff;
+  text-shadow:2px 2px 3px rgba(0,0,0,0.3);
+  margin-bottom:40px;
+}
+
+.hero .get-it .btn {
+  margin-left:10px;
+  margin-bottom:10px;
+  text-shadow:none;
+}
+
+div.iphone-mockup {
+  position:relative;
+  max-width:250px;
+  margin:20px;
+  display:inline-block;
+}
+
+.iphone-mockup img.device {
+  width:100%;
+  height:auto;
+}
+
+.iphone-mockup .screen {
+  position:absolute;
+  width:88%;
+  height:77%;
+  top:12%;
+  border-radius:2px;
+  left:6%;
+  border:1px solid #444;
+  background-color:#aaa;
+  overflow:hidden;
+  background:url(screen-content-iphone-6.jpg);
+  background-size:cover;
+  background-position:center;
+}
+
+.iphone-mockup .screen:before {
+  content:'';
+  background-color:#fff;
+  position:absolute;
+  width:70%;
+  height:140%;
+  top:-12%;
+  right:-60%;
+  transform:rotate(-19deg);
+  opacity:0.2;
+}
+
+.icon-feature {
+  text-align:center;
+}
+
+.icon-feature .glyphicon {
+  font-size:60px;
+}
+
+section.features {
+  background-color:#2F75B5;
+  padding:40px 0;
+  color:#fff;
+}
+
+.features h2 {
+  color:#fff;
+}
+
+.features .icon-features {
+  margin-top:15px;
+}
+
+.testimonials blockquote {
+  text-align:center;
+}
+
+section.testimonials {
+  margin:50px 0;
+}
+
+.site-footer {
+  padding:20px 0;
+  text-align:center;
+}
+
+@media (min-width:768px) {
+  .site-footer h5 {
+    text-align:left;
+  }
+}
+
+.site-footer h5 {
+  color:inherit;
+  font-size:20px;
+}
+
+.site-footer .social-icons a:hover {
+  opacity:1;
+}
+
+.site-footer .social-icons a {
+  display:inline-block;
+  width:32px;
+  border:none;
+  font-size:20px;
+  border-radius:50%;
+  margin:4px;
+  color:#fff;
+  text-align:center;
+  background-color:#798FA5;
+  height:32px;
+  opacity:0.8;
+  line-height:32px;
+}
+
+@media (min-width:768px) {
+  .site-footer .social-icons {
+    text-align:right;
+  }
+}
+
+.partien {
+  background-color:rgba(128,128,128,0.5);
+  text-align:left;
+  color:#fff;
+}
+
+.white a {
+  color:#ffffff;
+}
+
+.white a: hover, a:focus {
+  color:#ffffff;
+}
+
+.table-bordered {
+  /*border-bottom:5px solid #eeeeee;*/
+  border:none;
+  /*border-color:#808080;*/
+}
+
+.table-bordered > thead > tr > th, .table-bordered > thead > tr > td {
+  border-bottom-width:1px;
+}
+
+.table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
+  border:0px solid #eeeeee;
+}
+
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+  padding:8px;
+  line-height:1.42857143;
+  vertical-align:top;
+  border-bottom:1px solid #eeeeee;
+  border-top:1px solid #eeeeee;
+}
+
+table:not(.table-bordered) > thead > tr > th, .table:not(.table-bordered) > thead > tr > th, table:not(.table-bordered) > tbody > tr > th, .table:not(.table-bordered) > tbody > tr > th, table:not(.table-bordered) > tfoot > tr > th, .table:not(.table-bordered) > tfoot > tr > th, table:not(.table-bordered) > thead > tr > td, .table:not(.table-bordered) > thead > tr > td, table:not(.table-bordered) > tbody > tr > td, .table:not(.table-bordered) > tbody > tr > td, table:not(.table-bordered) > tfoot > tr > td, .table:not(.table-bordered) > tfoot > tr > td {
+}
+
+#border {
+  border:1px solid black;
+  /*border-color:red;*/
+}
+
+.top {
+  text-align:center;
+  background-color:#2F75B5;
+  /*border-style:solid;*/
+  /*border-color:red;*/
+}
+
+.top2 {
+  background-color:#2F75B5;
+  padding-left:5px;
+  padding-right:5px;
+}
+
+.white {
+  color:#fff;
+}
+
+.left {
+  text-align:left;
+}
+
+.abstand {
+  margin-right:5px;
+}
+
+.abstand2 {
+  margin:10px;
+}
+
+.abstand3 {
+  height:75px;
+  margin-right: 5px;
+}
+
+.abstand4 {
+  height:30px;
+  margin-right: 5px;
+}
