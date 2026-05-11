@@ -22,13 +22,13 @@
           <button class="nav-button is-active" type="button" data-view="dashboard">Übersicht</button>
           <button class="nav-button" type="button" data-view="submit">Tippabgabe</button>
           <button class="nav-button" type="button" data-view="viewer">Tipps ansehen</button>
-          <button class="nav-button" type="button" data-view="players" data-admin-only>Teilnehmer</button>
-          <button class="nav-button" type="button" data-view="predictions" data-admin-only>Tipps</button>
-          <button class="nav-button" type="button" data-view="results" data-admin-only>Ergebnisse</button>
+          <button class="nav-button" type="button" data-view="players" data-admin-only hidden>Teilnehmer</button>
+          <button class="nav-button" type="button" data-view="predictions" data-admin-only hidden>Tipps</button>
+          <button class="nav-button" type="button" data-view="results" data-admin-only hidden>Ergebnisse</button>
           <button class="nav-button" type="button" data-view="rules">Punkte</button>
         </nav>
 
-        <div class="sidebar-panel" data-admin-only>
+        <div class="sidebar-panel" data-admin-only hidden>
           <label for="active-player">Aktiver Teilnehmer</label>
           <select id="active-player"></select>
         </div>
@@ -46,7 +46,7 @@
               <p class="eyebrow">Rangliste</p>
               <h2 id="dashboard-title">Aktueller Stand</h2>
             </div>
-            <div class="header-actions" data-admin-only>
+            <div class="header-actions" data-admin-only hidden>
               <label class="ghost-button file-button">
                 Import
                 <input id="import-data" type="file" accept="application/json" />
@@ -163,7 +163,7 @@
               <p class="eyebrow">Auswertung</p>
               <h2 id="results-title">Offizielle Ergebnisse eintragen</h2>
             </div>
-            <div class="header-actions" data-admin-only>
+            <div class="header-actions" data-admin-only hidden>
               <button class="ghost-button" type="button" data-export-state>tippspiel-state.json erstellen</button>
               <button class="danger-button" id="reset-results" type="button">Ergebnisse leeren</button>
             </div>
