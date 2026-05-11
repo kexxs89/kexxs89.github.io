@@ -1,0 +1,23 @@
+{
+  "activePlayerId": "",
+  "players": [],
+  "predictions": {},
+  "results": {
+    "matches": {},
+    "groupWinners": {},
+    "stages": {}
+  },
+  "scoring": {
+    "tendency": 1,
+    "exactScore": 3,
+    "groupWinner": 3,
+    "stages": {
+      "round32": 1,
+      "round16": 2,
+      "quarter": 4,
+      "semi": 8,
+      "final": 16,
+      "champion": 32
+    }
+  }
+}

@@ -1,0 +1,37 @@
+const WORLD_CUP_DATA = {
+  groups: [
+    { id: "A", teams: ["Mexiko", "Südafrika", "Republik Korea", "Tschechien"] },
+    { id: "B", teams: ["Kanada", "Bosnien und Herzegowina", "Katar", "Schweiz"] },
+    { id: "C", teams: ["Brasilien", "Marokko", "Haiti", "Schottland"] },
+    { id: "D", teams: ["USA", "Paraguay", "Australien", "Türkei"] },
+    { id: "E", teams: ["Deutschland", "Curaçao", "Côte d'Ivoire", "Ecuador"] },
+    { id: "F", teams: ["Niederlande", "Japan", "Schweden", "Tunesien"] },
+    { id: "G", teams: ["Belgien", "Ägypten", "Iran", "Neuseeland"] },
+    { id: "H", teams: ["Spanien", "Cabo Verde", "Saudi-Arabien", "Uruguay"] },
+    { id: "I", teams: ["Frankreich", "Senegal", "Irak", "Norwegen"] },
+    { id: "J", teams: ["Argentinien", "Algerien", "Österreich", "Jordanien"] },
+    { id: "K", teams: ["Portugal", "DR Kongo", "Usbekistan", "Kolumbien"] },
+    { id: "L", teams: ["England", "Kroatien", "Ghana", "Panama"] },
+  ],
+  scoring: {
+    tendency: 1,
+    exactScore: 3,
+    groupWinner: 3,
+    stages: {
+      round32: 1,
+      round16: 2,
+      quarter: 4,
+      semi: 8,
+      final: 16,
+      champion: 32,
+    },
+  },
+  stageMeta: [
+    { id: "round32", label: "Runde der letzten 32", size: 32 },
+    { id: "round16", label: "Achtelfinale", size: 16 },
+    { id: "quarter", label: "Viertelfinale", size: 8 },
+    { id: "semi", label: "Halbfinale", size: 4 },
+    { id: "final", label: "Finale", size: 2 },
+    { id: "champion", label: "Weltmeister", size: 1 },
+  ],
+};

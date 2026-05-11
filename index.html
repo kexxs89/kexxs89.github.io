@@ -1,943 +1,196 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Excel EM Tippspiel 2024 by www.makro-excel.de">
-    <meta name="robots" content="follow">
-    <title>Excel EM Tippspiel 2024</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-</head>
-<body>
-    <nav class="navbar navbar-default">
-        <div class="container">
-            <div class="navbar-header"><a class="navbar-brand navbar-link" href="em-tippspiel-2024.html"><i class="fa fa-soccer-ball-o"></i> Excel EM Tippspiel 2024</a>
-                <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
-            </div>
-            <div class="collapse navbar-collapse" id="navcol-1">
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="active" role="presentation"><a href="em-tippspiel-2024.html">Spielplan </a></li>
-                    <li role="presentation"><a href="spielstand.html">Spielstand </a></li>
-                    <li role="presentation"><a href="mitspieler-uebersicht.html">Mitspieler </a></li>
-                    <li role="presentation"><a href="regeln.html">Regeln </a></li>
-                    <li role="presentation"><a href="https://www.amexio.de/" target="_blank" title="Gutscheintabelle">Gutscheine </a></li>
-                </ul>
-            </div>
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WM 2026 Tippspiel</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-mark">26</span>
+          <div>
+            <h1>WM Tippspiel</h1>
+            <p>Vorrunde, Gruppen, K.-o.-Runden</p>
+          </div>
         </div>
-    </nav>
-    <div class="jumbotron hero" style="background-image:url(&quot;https://www.makro-excel.de/bilder/fan.jpg&quot;);background-size:100%;background-repeat: no-repeat;background-color: #000;">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 get-it">
-                    <p><a class="btn btn-primary btn-lg" role="button" href="spielstand.html">Spielstand </a><a class="btn btn-success btn-lg" role="button" href="mitspieler-uebersicht.html">Mitspieler </a><a class="btn btn-warning btn-lg" role="button" href="regeln.html">Regeln </a></p>
-                </div>
-                <div class="col-md-6 get-it">
-                    <p><strong>Die letzte Tipp-Auswertung erfolgte am:<br />27.05.2024 um 20:55 Uhr</strong></p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12 get-it">
-                    <div class="partien">
-                        <h2 class="text-center white">Excel EM Tippspiel 2024</h2>
-                        <blockquote>
-                            <p class="left">Das kostenlose Excel Tippspiel gibt es für die 1. bis 3. Bundesliga, sowie ausgewählte europäische Ligen (unterstützt werden England, Spanien, Italien, Frankreich, Türkei, Niederlande). Alle zwei Jahre gibt es dann noch das EM bzw. WM
-                            Tippspiel.</p><p class="left">Viel Spaß beim Tippen! #MakroExcelTippspiel</p>
-                            <footer class="white">Marco Schade - www.makro-excel.de</footer>
-                        </blockquote>
-                    </div>
-                </div>
-            </div>
+
+        <nav class="nav" aria-label="Bereiche">
+          <button class="nav-button is-active" type="button" data-view="dashboard">Übersicht</button>
+          <button class="nav-button" type="button" data-view="submit">Tippabgabe</button>
+          <button class="nav-button" type="button" data-view="viewer">Tipps ansehen</button>
+          <button class="nav-button" type="button" data-view="players" data-admin-only>Teilnehmer</button>
+          <button class="nav-button" type="button" data-view="predictions" data-admin-only>Tipps</button>
+          <button class="nav-button" type="button" data-view="results" data-admin-only>Ergebnisse</button>
+          <button class="nav-button" type="button" data-view="rules">Punkte</button>
+        </nav>
+
+        <div class="sidebar-panel" data-admin-only>
+          <label for="active-player">Aktiver Teilnehmer</label>
+          <select id="active-player"></select>
         </div>
+
+        <div class="sidebar-panel mode-panel">
+          <strong id="mode-label">Lesemodus</strong>
+          <p id="mode-help">Die Seite liest die veröffentlichten Daten aus dem Repository.</p>
+        </div>
+      </aside>
+
+      <main class="content">
+        <section class="view is-active" id="view-dashboard" aria-labelledby="dashboard-title">
+          <div class="page-header">
+            <div>
+              <p class="eyebrow">Rangliste</p>
+              <h2 id="dashboard-title">Aktueller Stand</h2>
+            </div>
+            <div class="header-actions" data-admin-only>
+              <label class="ghost-button file-button">
+                Import
+                <input id="import-data" type="file" accept="application/json" />
+              </label>
+              <button class="ghost-button" id="export-data" type="button" data-export-state>tippspiel-state.json erstellen</button>
+            </div>
+          </div>
+          <div class="scoreboard-wrap">
+            <table class="scoreboard">
+              <thead>
+                <tr>
+                  <th>Platz</th>
+                  <th>Teilnehmer</th>
+                  <th>Punkte</th>
+                  <th>Exakte Ergebnisse</th>
+                  <th>Tendenzen</th>
+                  <th>Gruppensieger</th>
+                  <th>K.-o.-Teams</th>
+                </tr>
+              </thead>
+              <tbody id="scoreboard-body"></tbody>
+            </table>
+          </div>
+          <div class="stats-grid" id="stats-grid"></div>
+        </section>
+
+        <section class="view" id="view-players" aria-labelledby="players-title">
+          <div class="page-header">
+            <div>
+              <p class="eyebrow">Setup</p>
+              <h2 id="players-title">Teilnehmer verwalten</h2>
+            </div>
+          </div>
+          <form class="inline-form" id="player-form">
+            <input id="player-name" type="text" autocomplete="off" placeholder="Name eingeben" />
+            <button type="submit">Hinzufügen</button>
+          </form>
+          <div class="player-list" id="player-list"></div>
+        </section>
+
+        <section class="view" id="view-submit" aria-labelledby="submit-title">
+          <div class="page-header">
+            <div>
+              <p class="eyebrow">Tippabgabe</p>
+              <h2 id="submit-title">Tippschein erstellen</h2>
+            </div>
+            <button class="ghost-button" id="download-submission" type="button">Tippdatei erstellen</button>
+          </div>
+          <div class="submit-panel">
+            <label>
+              <span>Dein Name</span>
+              <input id="submit-player-name" type="text" autocomplete="name" placeholder="Name eingeben" />
+            </label>
+          </div>
+          <div class="notice">
+            Fülle den Tippschein aus und erstelle danach deine Tippdatei. Diese Datei schickst du dem Spielleiter, der sie offiziell importiert.
+          </div>
+          <div class="tabs" id="submit-tabs" role="tablist">
+            <button class="tab is-active" type="button" data-submit-tab="matches">Vorrunde</button>
+            <button class="tab" type="button" data-submit-tab="groups">Gruppensieger</button>
+            <button class="tab" type="button" data-submit-tab="stages">K.-o.-Runden</button>
+          </div>
+          <div class="tab-panel is-active" id="submit-matches"></div>
+          <div class="tab-panel" id="submit-groups"></div>
+          <div class="tab-panel" id="submit-stages"></div>
+        </section>
+
+        <section class="view" id="view-viewer" aria-labelledby="viewer-title">
+          <div class="page-header">
+            <div>
+              <p class="eyebrow">Mitspieler</p>
+              <h2 id="viewer-title">Tipps ansehen</h2>
+            </div>
+            <label class="viewer-select">
+              <span>Teilnehmer</span>
+              <select id="viewer-player"></select>
+            </label>
+          </div>
+          <div class="notice" id="viewer-empty">Noch keine Teilnehmer importiert.</div>
+          <div id="viewer-content">
+            <div class="tabs" id="viewer-tabs" role="tablist">
+              <button class="tab is-active" type="button" data-viewer-tab="matches">Vorrunde</button>
+              <button class="tab" type="button" data-viewer-tab="groups">Gruppensieger</button>
+              <button class="tab" type="button" data-viewer-tab="stages">K.-o.-Runden</button>
+            </div>
+            <div class="tab-panel is-active" id="viewer-matches"></div>
+            <div class="tab-panel" id="viewer-groups"></div>
+            <div class="tab-panel" id="viewer-stages"></div>
+          </div>
+        </section>
+
+        <section class="view" id="view-predictions" aria-labelledby="predictions-title">
+          <div class="page-header">
+            <div>
+              <p class="eyebrow">Tippschein</p>
+              <h2 id="predictions-title">Tipps abgeben</h2>
+            </div>
+            <button class="ghost-button" id="copy-from-results" type="button">Ergebnisse als Tipp kopieren</button>
+          </div>
+          <div class="notice" id="no-player-notice">Lege zuerst mindestens einen Teilnehmer an.</div>
+          <div class="tabs" id="prediction-tabs" role="tablist">
+            <button class="tab is-active" type="button" data-prediction-tab="matches">Vorrunde</button>
+            <button class="tab" type="button" data-prediction-tab="groups">Gruppensieger</button>
+            <button class="tab" type="button" data-prediction-tab="stages">K.-o.-Runden</button>
+          </div>
+          <div class="tab-panel is-active" id="prediction-matches"></div>
+          <div class="tab-panel" id="prediction-groups"></div>
+          <div class="tab-panel" id="prediction-stages"></div>
+        </section>
+
+        <section class="view" id="view-results" aria-labelledby="results-title">
+          <div class="page-header">
+            <div>
+              <p class="eyebrow">Auswertung</p>
+              <h2 id="results-title">Offizielle Ergebnisse eintragen</h2>
+            </div>
+            <div class="header-actions" data-admin-only>
+              <button class="ghost-button" type="button" data-export-state>tippspiel-state.json erstellen</button>
+              <button class="danger-button" id="reset-results" type="button">Ergebnisse leeren</button>
+            </div>
+          </div>
+          <div class="tabs" id="result-tabs" role="tablist">
+            <button class="tab is-active" type="button" data-result-tab="matches">Vorrunde</button>
+            <button class="tab" type="button" data-result-tab="groups">Gruppensieger</button>
+            <button class="tab" type="button" data-result-tab="stages">K.-o.-Runden</button>
+          </div>
+          <div class="tab-panel is-active" id="result-matches"></div>
+          <div class="tab-panel" id="result-groups"></div>
+          <div class="tab-panel" id="result-stages"></div>
+        </section>
+
+        <section class="view" id="view-rules" aria-labelledby="rules-title">
+          <div class="page-header">
+            <div>
+              <p class="eyebrow">Regeln</p>
+              <h2 id="rules-title">Punktesystem</h2>
+            </div>
+          </div>
+          <div class="rules-grid" id="rules-grid"></div>
+        </section>
+      </main>
     </div>
-    <section>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <h2 class="top2 white">EM 2024 Spielplan </h2>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <h2 class="top2 white">Vorrunde </h2>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 get-it">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <td colspan="3" class="top">
-                                        <h4 class="white left">Gruppe A</h4>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/deutschland.png" class="abstand">Deutschland</td>
-                                    <td><img src="assets/img/schottland.png" class="abstand">Schottland</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Fr., 14. Juni 2024 um 21:00 Uhr (MESZ) in München</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/ungarn.png" class="abstand">Ungarn</td>
-                                    <td><img src="assets/img/schweiz.png" class="abstand">Schweiz</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Sa., 15. Juni 2024 um 15:00 Uhr (MESZ) in Köln</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/deutschland.png" class="abstand">Deutschland</td>
-                                    <td><img src="assets/img/ungarn.png" class="abstand">Ungarn</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Mi., 19. Juni 2024 um 18:00 Uhr (MESZ) in Stuttgart</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/schottland.png" class="abstand">Schottland</td>
-                                    <td><img src="assets/img/schweiz.png" class="abstand">Schweiz</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Mi., 19. Juni 2024 um 21:00 Uhr (MESZ) in Köln</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/schweiz.png" class="abstand">Schweiz</td>
-                                    <td><img src="assets/img/deutschland.png" class="abstand">Deutschland</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">So., 23. Juni 2024 um 21:00 Uhr (MESZ) in Frankfurt am Main</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/schottland.png" class="abstand">Schottland</td>
-                                    <td><img src="assets/img/ungarn.png" class="abstand">Ungarn</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">So., 23. Juni 2024 um 21:00 Uhr (MESZ) in Stuttgart</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <td class="top">
-                                        <h4 class="white left">Pl.</h4>
-                                    </td>
-                                    <td class="top">
-                                        <h4 class="white left">Land</h4>
-                                    </td>
-                                    <td class="top">
-                                        <h4 class="white left">Tore</h4>
-                                    </td>
-                                    <td class="top">
-                                        <h4 class="white left">Diff.</h4>
-                                    </td>
-                                    <td class="top">
-                                        <h4 class="white left">Pkt.</h4>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1.</td>
-                                    <td><img src="assets/img/deutschland.png" class="abstand">Deutschland</td>
-                                    <td>0:0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                                <tr>
-                                    <td>2.</td>
-                                    <td><img src="assets/img/schottland.png" class="abstand">Schottland</td>
-                                    <td>0:0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                                <tr>
-                                    <td>3.</td>
-                                    <td><img src="assets/img/ungarn.png" class="abstand">Ungarn</td>
-                                    <td>0:0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                                <tr>
-                                    <td>4.</td>
-                                    <td><img src="assets/img/schweiz.png" class="abstand">Schweiz</td>
-                                    <td>0:0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="col-md-6 get-it">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <td colspan="3" class="top">
-                                        <h4 class="white left">Gruppe B</h4>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/spanien.png" class="abstand">Spanien</td>
-                                    <td><img src="assets/img/kroatien.png" class="abstand">Kroatien</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Sa., 15. Juni 2024 um 18:00 Uhr (MESZ) in Berlin</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/italien.png" class="abstand">Italien</td>
-                                    <td><img src="assets/img/albanien.png" class="abstand">Albanien</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Sa., 15. Juni 2024 um 21:00 Uhr (MESZ) in Dortmund</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/kroatien.png" class="abstand">Kroatien</td>
-                                    <td><img src="assets/img/albanien.png" class="abstand">Albanien</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Mi., 19. Juni 2024 um 15:00 Uhr (MESZ) in Hamburg</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/spanien.png" class="abstand">Spanien</td>
-                                    <td><img src="assets/img/italien.png" class="abstand">Italien</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Do., 20. Juni 2024 um 21:00 Uhr (MESZ) in Gelsenkirchen</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/kroatien.png" class="abstand">Kroatien</td>
-                                    <td><img src="assets/img/italien.png" class="abstand">Italien</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Mo., 24. Juni 2024 um 21:00 Uhr (MESZ) in Leipzig</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/albanien.png" class="abstand">Albanien</td>
-                                    <td><img src="assets/img/spanien.png" class="abstand">Spanien</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Mo., 24. Juni 2024 um 21:00 Uhr (MESZ) in Düsseldorf</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <td class="top">
-                                        <h4 class="white left">Pl.</h4>
-                                    </td>
-                                    <td class="top">
-                                        <h4 class="white left">Land</h4>
-                                    </td>
-                                    <td class="top">
-                                        <h4 class="white left">Tore</h4>
-                                    </td>
-                                    <td class="top">
-                                        <h4 class="white left">Diff.</h4>
-                                    </td>
-                                    <td class="top">
-                                        <h4 class="white left">Pkt</h4>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1.</td>
-                                    <td><img src="assets/img/spanien.png" class="abstand">Spanien</td>
-                                    <td>0:0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                                <tr>
-                                    <td>2.</td>
-                                    <td><img src="assets/img/kroatien.png" class="abstand">Kroatien</td>
-                                    <td>0:0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                                <tr>
-                                    <td>3.</td>
-                                    <td><img src="assets/img/italien.png" class="abstand">Italien</td>
-                                    <td>0:0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                                <tr>
-                                    <td>4.</td>
-                                    <td><img src="assets/img/albanien.png" class="abstand">Albanien</td>
-                                    <td>0:0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="col-md-6 get-it">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <td colspan="3" class="top">
-                                        <h4 class="white left">Gruppe C</h4>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/slowenien.png" class="abstand">Slowenien</td>
-                                    <td><img src="assets/img/daenemark.png" class="abstand">Dänemark</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">So., 16. Juni 2024 um 18:00 Uhr (MESZ) in Stuttgart</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/serbien.png" class="abstand">Serbien</td>
-                                    <td><img src="assets/img/england.png" class="abstand">England</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">So., 16. Juni 2024 um 21:00 Uhr (MESZ) in Gelsenkirchen</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/slowenien.png" class="abstand">Slowenien</td>
-                                    <td><img src="assets/img/serbien.png" class="abstand">Serbien</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Do., 20. Juni 2024 um 15:00 Uhr (MESZ) in München</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/daenemark.png" class="abstand">Dänemark</td>
-                                    <td><img src="assets/img/england.png" class="abstand">England</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Do., 20. Juni 2024 um 18:00 Uhr (MESZ) in Frankfurt am Main</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/england.png" class="abstand">England</td>
-                                    <td><img src="assets/img/slowenien.png" class="abstand">Slowenien</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Di., 25. Juni 2024 um 21:00 Uhr (MESZ) in Köln</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/daenemark.png" class="abstand">Dänemark</td>
-                                    <td><img src="assets/img/serbien.png" class="abstand">Serbien</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Di., 25. Juni 2024 um 21:00 Uhr (MESZ) in München</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <td class="top">
-                                        <h4 class="white left">Pl.</h4>
-                                    </td>
-                                    <td class="top">
-                                        <h4 class="white left">Land</h4>
-                                    </td>
-                                    <td class="top">
-                                        <h4 class="white left">Tore</h4>
-                                    </td>
-                                    <td class="top">
-                                        <h4 class="white left">Diff.</h4>
-                                    </td>
-                                    <td class="top">
-                                        <h4 class="white left">Pkt.</h4>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1.</td>
-                                    <td><img src="assets/img/slowenien.png" class="abstand">Slowenien</td>
-                                    <td>0:0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                                <tr>
-                                    <td>2.</td>
-                                    <td><img src="assets/img/daenemark.png" class="abstand">Dänemark</td>
-                                    <td>0:0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                                <tr>
-                                    <td>3.</td>
-                                    <td><img src="assets/img/serbien.png" class="abstand">Serbien</td>
-                                    <td>0:0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                                <tr>
-                                    <td>4.</td>
-                                    <td><img src="assets/img/england.png" class="abstand">England</td>
-                                    <td>0:0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="col-md-6 get-it">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <td colspan="3" class="top">
-                                        <h4 class="white left">Gruppe D</h4>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/polen.png" class="abstand">Polen</td>
-                                    <td><img src="assets/img/niederlande.png" class="abstand">Niederlande</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">So., 16. Juni 2024 um 15:00 Uhr (MESZ) in Hamburg</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/oesterreich.png" class="abstand">Österreich</td>
-                                    <td><img src="assets/img/frankreich.png" class="abstand">Frankreich</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Mo., 17. Juni 2024 um 21:00 Uhr (MESZ) in Düsseldorf</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/polen.png" class="abstand">Polen</td>
-                                    <td><img src="assets/img/oesterreich.png" class="abstand">Österreich</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Fr., 21. Juni 2024 um 18:00 Uhr (MESZ) in Berlin</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/niederlande.png" class="abstand">Niederlande</td>
-                                    <td><img src="assets/img/frankreich.png" class="abstand">Frankreich</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Fr., 21. Juni 2024 um 21:00 Uhr (MESZ) in Leipzig</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/niederlande.png" class="abstand">Niederlande</td>
-                                    <td><img src="assets/img/oesterreich.png" class="abstand">Österreich</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Di., 25. Juni 2024 um 18:00 Uhr (MESZ) in Berlin</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/frankreich.png" class="abstand">Frankreich</td>
-                                    <td><img src="assets/img/polen.png" class="abstand">Polen</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Di., 25. Juni 2024 um 18:00 Uhr (MESZ) in Dortmund</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <td class="top">
-                                        <h4 class="white left">Pl.</h4>
-                                    </td>
-                                    <td class="top">
-                                        <h4 class="white left">Land</h4>
-                                    </td>
-                                    <td class="top">
-                                        <h4 class="white left">Tore</h4>
-                                    </td>
-                                    <td class="top">
-                                        <h4 class="white left">Diff.</h4>
-                                    </td>
-                                    <td class="top">
-                                        <h4 class="white left">Pkt.</h4>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1.</td>
-                                    <td><img src="assets/img/polen.png" class="abstand">Polen</td>
-                                    <td>0:0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                                <tr>
-                                    <td>2.</td>
-                                    <td><img src="assets/img/niederlande.png" class="abstand">Niederlande</td>
-                                    <td>0:0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                                <tr>
-                                    <td>3.</td>
-                                    <td><img src="assets/img/oesterreich.png" class="abstand">Österreich</td>
-                                    <td>0:0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                                <tr>
-                                    <td>4.</td>
-                                    <td><img src="assets/img/frankreich.png" class="abstand">Frankreich</td>
-                                    <td>0:0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="col-md-6 get-it">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <td colspan="3" class="top">
-                                        <h4 class="white left">Gruppe E</h4>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/rumaenien.png" class="abstand">Rumänien</td>
-                                    <td><img src="assets/img/ukraine.png" class="abstand">Ukraine</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Mo., 17. Juni 2024 um 15:00 Uhr (MESZ) in München</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/belgien.png" class="abstand">Belgien</td>
-                                    <td><img src="assets/img/slowakei.png" class="abstand">Slowakei</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Mo., 17. Juni 2024 um 18:00 Uhr (MESZ) in Frankfurt am Main</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/slowakei.png" class="abstand">Slowakei</td>
-                                    <td><img src="assets/img/ukraine.png" class="abstand">Ukraine</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Fr., 21. Juni 2024 um 15:00 Uhr (MESZ) in Düsseldorf</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/belgien.png" class="abstand">Belgien</td>
-                                    <td><img src="assets/img/rumaenien.png" class="abstand">Rumänien</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Sa., 22. Juni 2024 um 21:00 Uhr (MESZ) in Köln</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/slowakei.png" class="abstand">Slowakei</td>
-                                    <td><img src="assets/img/rumaenien.png" class="abstand">Rumänien</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Mi., 26. Juni 2024 um 18:00 Uhr (MESZ) in Frankfurt am Main</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/ukraine.png" class="abstand">Ukraine</td>
-                                    <td><img src="assets/img/belgien.png" class="abstand">Belgien</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Mi., 26. Juni 2024 um 18:00 Uhr (MESZ) in Stuttgart</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <td class="top">
-                                        <h4 class="white left">Pl.</h4>
-                                    </td>
-                                    <td class="top">
-                                        <h4 class="white left">Land</h4>
-                                    </td>
-                                    <td class="top">
-                                        <h4 class="white left">Tore</h4>
-                                    </td>
-                                    <td class="top">
-                                        <h4 class="white left">Diff.</h4>
-                                    </td>
-                                    <td class="top">
-                                        <h4 class="white left">Pkt.</h4>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1.</td>
-                                    <td><img src="assets/img/belgien.png" class="abstand">Belgien</td>
-                                    <td>0:0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                                <tr>
-                                    <td>2.</td>
-                                    <td><img src="assets/img/slowakei.png" class="abstand">Slowakei</td>
-                                    <td>0:0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                                <tr>
-                                    <td>3.</td>
-                                    <td><img src="assets/img/rumaenien.png" class="abstand">Rumänien</td>
-                                    <td>0:0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                                <tr>
-                                    <td>4.</td>
-                                    <td><img src="assets/img/ukraine.png" class="abstand">Ukraine</td>
-                                    <td>0:0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="col-md-6 get-it">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <td colspan="3" class="top">
-                                        <h4 class="white left">Gruppe F</h4>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/tuerkei.png" class="abstand">Türkei</td>
-                                    <td><img src="assets/img/georgien.png" class="abstand">Georgien</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Di., 18. Juni 2024 um 18:00 Uhr (MESZ) in Dortmund</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/portugal.png" class="abstand">Portugal</td>
-                                    <td><img src="assets/img/tschechien.png" class="abstand">Tschechien</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Di., 18. Juni 2024 um 21:00 Uhr (MESZ) in Leipzig</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/georgien.png" class="abstand">Georgien</td>
-                                    <td><img src="assets/img/tschechien.png" class="abstand">Tschechien</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Sa., 22. Juni 2024 um 15:00 Uhr (MESZ) in Hamburg</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/tuerkei.png" class="abstand">Türkei</td>
-                                    <td><img src="assets/img/portugal.png" class="abstand">Portugal</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Sa., 22. Juni 2024 um 18:00 Uhr (MESZ) in Dortmund</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/georgien.png" class="abstand">Georgien</td>
-                                    <td><img src="assets/img/portugal.png" class="abstand">Portugal</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Mi., 26. Juni 2024 um 21:00 Uhr (MESZ) in Gelsenkirchen</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="assets/img/tschechien.png" class="abstand">Tschechien</td>
-                                    <td><img src="assets/img/tuerkei.png" class="abstand">Türkei</td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Mi., 26. Juni 2024 um 21:00 Uhr (MESZ) in Hamburg</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <td class="top">
-                                        <h4 class="white left">Pl.</h4>
-                                    </td>
-                                    <td class="top">
-                                        <h4 class="white left">Land</h4>
-                                    </td>
-                                    <td class="top">
-                                        <h4 class="white left">Tore</h4>
-                                    </td>
-                                    <td class="top">
-                                        <h4 class="white left">Diff.</h4>
-                                    </td>
-                                    <td class="top">
-                                        <h4 class="white left">Pkt.</h4>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1.</td>
-                                    <td><img src="assets/img/tuerkei.png" class="abstand">Türkei</td>
-                                    <td>0:0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                                <tr>
-                                    <td>2.</td>
-                                    <td><img src="assets/img/georgien.png" class="abstand">Georgien</td>
-                                    <td>0:0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                                <tr>
-                                    <td>3.</td>
-                                    <td><img src="assets/img/portugal.png" class="abstand">Portugal</td>
-                                    <td>0:0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                                <tr>
-                                    <td>4.</td>
-                                    <td><img src="assets/img/tschechien.png" class="abstand">Tschechien</td>
-                                    <td>0:0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <h2 class="top2 white">Finalrunde </h2>
-                </div>
-                <div class="col-md-12">
-                    <h2 class="top2 white">Achtelfinale </h2>
-                </div>
-                <div class="col-md-12">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Sa., 29. Juni 2024 um 21:00 Uhr (MESZ) in Dortmund (Sieger Gruppe A - Zweiter Gruppe C)</td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Sa., 29. Juni 2024 um 18:00 Uhr (MESZ) in Berlin (Zweiter Gruppe A - Zweiter Gruppe B)</td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">So., 30. Juni 2024 um 21:00 Uhr (MESZ) in Köln (Sieger Gruppe B - Dritter Gruppe A/D/E/F)</td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">So., 30. Juni 2024 um 18:00 Uhr (MESZ) in Gelsenkirchen (Sieger Gruppe C - Dritter Gruppe D/E/F)</td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Mo., 1. Juli 2024 um 21:00 Uhr (MESZ) in Frankfurt am Main (Sieger Gruppe F - Dritter Gruppe A/B/C)</td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Mo., 1. Juli 2024 um 18:00 Uhr (MESZ) in Düsseldorf (Zweiter Gruppe D - Zweiter Gruppe E)</td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Di., 2. Juli 2024 um 18:00 Uhr (MESZ) in München (Sieger Gruppe E - Dritter Gruppe A/B/C/D)</td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Di., 2. Juli 2024 um 21:00 Uhr (MESZ) in Leipzig (Sieger Gruppe D - Zweiter Gruppe F)</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <h2 class="top2 white">Viertelfinale </h2>
-                </div>
-                <div class="col-md-12">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Fr., 5. Juli 2024 um 18:00 Uhr (MESZ) in Stuttgart (Sieger AF3 - Sieger AF1)</td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Fr., 5. Juli 2024 um 21:00 Uhr (MESZ) in Hamburg (Sieger AF5 - Sieger AF6)</td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Sa., 6. Juli 2024 um 21:00 Uhr (MESZ) in Berlin (Sieger AF7 - Sieger AF8)</td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Sa., 6. Juli 2024 um 18:00 Uhr (MESZ) in Düsseldorf (Sieger AF4 - Sieger AF2)</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <h2 class="top2 white">Halbfinale </h2>
-                </div>
-                <div class="col-md-12">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Di., 9. Juli 2024 um 21:00 Uhr (MESZ) in München (Sieger VF1 - Sieger VF2)</td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Mi., 10. Juli 2024 um 21:00 Uhr (MESZ) in Dortmund (Sieger VF3 - Sieger VF4)</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <h2 class="top2 white">Finale</h2>
-                </div>
-                <div class="col-md-12">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td>:</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">So., 14. Juli 2024 um 21:00 Uhr (MESZ) in Berlin (Sieger HF1 - Sieger HF2)</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
- </section>
- 
-    <section class="features">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <h2>Die Spielregeln</h2>
-                    <p class="white">Die Punktevergabe kann die Tippgemeinschaft bei Bedarf selbstständig anpassen. Optional können zudem Punkte für bestimmte Sondertipps vergeben werden. Zu den vollständigen <a href="regeln.html">Spielregeln </a>.</p>
-                </div>
-                <div class="col-md-6">
-                    <div class="row icon-features">
-                        <div class="col-xs-4 icon-feature white"><a href="regeln.html"><i class="glyphicon glyphicon-info-sign"></i><p>Regeln &amp; Rechte</p></a></div>
-                        <div class="col-xs-4 icon-feature white"><a href="spielstand.html"><i class="glyphicon glyphicon-list"></i><p>Spielstand </p></a></div>
-                        <div class="col-xs-4 icon-feature white"><a href="mitspieler-uebersicht.html"><i class="glyphicon glyphicon-user"></i><p>Mitspieler </p></a></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <footer class="site-footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-3">
-                    <a href="https://www.makro-excel.de" target="_blank"><img src="https://www.makro-excel.de/bilder/makro-excel-em.gif" class="abstand3"></a></div>
-                <div class="col-sm-3">
-                    <h5><a href="https://www.makro-excel.de" target="_blank">www.makro-excel.de </a> ©2024</h5></div>
-                <div class="col-sm-3">
-                    <h5><a href="impressum.html">Impressum </a> </h5></div>
-                <div class="col-sm-3 social-icons"><a href="https://www.facebook.com/MakroExcel/" target="_blank"><i class="fa fa-facebook"></i></a><a href="https://twitter.com/excelmakro" target="_blank"><i class="fa fa-twitter"></i></a><a href="https://www.instagram.com/excel_makro/" target="_blank"><i class="fa fa-instagram"></i></a></div>
-            </div>
-        </div>
-    </footer>
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-</body>
+
+    <script src="./data.js"></script>
+    <script src="./app.js"></script>
+  </body>
 </html>
