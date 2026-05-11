@@ -21,9 +21,9 @@ const WORLD_CUP_DATA = {
       round32: 1,
       round16: 2,
       quarter: 4,
-      semi: 8,
-      final: 16,
-      champion: 32,
+      semi: 6,
+      final: 8,
+      champion: 10,
     },
   },
   stageMeta: [
