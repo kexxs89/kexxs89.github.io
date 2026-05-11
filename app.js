@@ -3,6 +3,16 @@ const SUBMISSION_KEY = "wm-2026-tippspiel-submission-v1";
 const PUBLISHED_STATE_URL = "./tippspiel-state.json";
 const IS_ADMIN = new URLSearchParams(window.location.search).get("admin") === "1";
 const SUBMISSION_FILE_TYPE = "wm-2026-tippspiel-submission-v1";
+const VIEW_HASHES = {
+  dashboard: "rangliste",
+  submit: "tippabgabe",
+  viewer: "tipps-ansehen",
+  players: "teilnehmer",
+  predictions: "tipps",
+  results: "ergebnisse",
+  rules: "punkte",
+};
+const VIEW_BY_HASH = Object.fromEntries(Object.entries(VIEW_HASHES).map(([view, hash]) => [hash, view]));
 
 const GROUP_PAIRINGS = [
   [0, 1],
@@ -311,6 +321,28 @@ function render() {
   renderDashboard();
   renderMode();
   saveState();
+}
+
+function activateView(viewName, options = {}) {
+  const button = document.querySelector(`[data-view="${viewName}"]`);
+  if (!button) return;
+  if (button.dataset.adminOnly !== undefined && !IS_ADMIN) return;
+
+  document.querySelectorAll(".nav-button").forEach((navButton) => navButton.classList.toggle("is-active", navButton === button));
+  document.querySelectorAll(".view").forEach((view) => view.classList.toggle("is-active", view.id === `view-${viewName}`));
+
+  if (options.updateHash !== false) {
+    const nextHash = VIEW_HASHES[viewName] || viewName;
+    if (window.location.hash.slice(1) !== nextHash) {
+      history.pushState(null, "", `#${nextHash}`);
+    }
+  }
+}
+
+function activateViewFromHash() {
+  const hash = decodeURIComponent(window.location.hash.replace(/^#/, ""));
+  const viewName = VIEW_BY_HASH[hash] || hash || "dashboard";
+  activateView(viewName, { updateHash: false });
 }
 
 function renderViewer() {
@@ -976,8 +1008,7 @@ document.addEventListener("click", (event) => {
   const navButton = event.target.closest("[data-view]");
   if (navButton) {
     if (navButton.dataset.adminOnly !== undefined && !IS_ADMIN) return;
-    document.querySelectorAll(".nav-button").forEach((button) => button.classList.toggle("is-active", button === navButton));
-    document.querySelectorAll(".view").forEach((view) => view.classList.toggle("is-active", view.id === `view-${navButton.dataset.view}`));
+    activateView(navButton.dataset.view);
   }
 
   const predictionTab = event.target.closest("[data-prediction-tab]");
@@ -1284,4 +1315,7 @@ function formatScore(score) {
 loadInitialState().then((loadedState) => {
   state = loadedState;
   render();
+  activateViewFromHash();
 });
+
+window.addEventListener("hashchange", activateViewFromHash);
