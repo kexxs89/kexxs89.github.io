@@ -5036,7 +5036,12 @@
     }
   },
   "results": {
-    "matches": {},
+    "matches": {
+      "A1": {
+        "home": 2,
+        "away": 0
+      }
+    },
     "groupWinners": {},
     "stages": {}
   },
