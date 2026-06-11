@@ -7,6 +7,7 @@ const VIEW_HASHES = {
   dashboard: "rangliste",
   submit: "tippabgabe",
   viewer: "tipps-ansehen",
+  matrix: "alle-tipps",
   players: "teilnehmer",
   predictions: "tipps",
   results: "ergebnisse",
@@ -259,11 +260,16 @@ const els = {
   submitStages: document.querySelector("#submit-stages"),
   downloadSubmission: document.querySelector("#download-submission"),
   viewerPlayer: document.querySelector("#viewer-player"),
+  shareViewer: document.querySelector("#share-viewer"),
   viewerEmpty: document.querySelector("#viewer-empty"),
   viewerContent: document.querySelector("#viewer-content"),
   viewerMatches: document.querySelector("#viewer-matches"),
   viewerGroups: document.querySelector("#viewer-groups"),
   viewerStages: document.querySelector("#viewer-stages"),
+  matrixEmpty: document.querySelector("#matrix-empty"),
+  matrixMatches: document.querySelector("#matrix-matches"),
+  matrixGroups: document.querySelector("#matrix-groups"),
+  matrixStages: document.querySelector("#matrix-stages"),
   predictionMatches: document.querySelector("#prediction-matches"),
   predictionGroups: document.querySelector("#prediction-groups"),
   predictionStages: document.querySelector("#prediction-stages"),
@@ -449,6 +455,7 @@ function render() {
   renderPredictions();
   renderSubmission();
   renderViewer();
+  renderMatrix();
   renderResults();
   renderRules();
   renderDashboard();
@@ -472,10 +479,36 @@ function activateView(viewName, options = {}) {
   }
 }
 
+function parseHash() {
+  const raw = decodeURIComponent(window.location.hash.replace(/^#/, ""));
+  const [hashBase, ...rest] = raw.split("/");
+  const viewName = VIEW_BY_HASH[hashBase] || hashBase || "dashboard";
+  return { viewName, param: rest.join("/") };
+}
+
 function activateViewFromHash() {
-  const hash = decodeURIComponent(window.location.hash.replace(/^#/, ""));
-  const viewName = VIEW_BY_HASH[hash] || hash || "dashboard";
+  const { viewName, param } = parseHash();
+  if (viewName === "viewer" && param && state.players.some((player) => player.id === param)) {
+    els.viewerPlayer.dataset.selected = param;
+    renderViewer();
+  }
   activateView(viewName, { updateHash: false });
+}
+
+function updateViewerHash(playerId) {
+  const base = VIEW_HASHES.viewer;
+  const nextHash = playerId ? `${base}/${playerId}` : base;
+  if (window.location.hash.slice(1) !== nextHash) {
+    history.replaceState(null, "", `#${nextHash}`);
+  }
+}
+
+function buildViewerShareUrl() {
+  const url = new URL(window.location.href);
+  url.searchParams.delete("admin");
+  const playerId = els.viewerPlayer.value;
+  url.hash = playerId ? `${VIEW_HASHES.viewer}/${playerId}` : VIEW_HASHES.viewer;
+  return url.toString();
 }
 
 function renderViewer() {
@@ -594,6 +627,173 @@ function renderViewerStages(values) {
                     : `<span class="empty-inline">Kein Tipp</span>`
                 }
               </div>
+            </section>
+          `;
+        })
+        .join("")}
+    </div>
+  `;
+}
+
+function matchHitClass(prediction, result) {
+  if (!hasScore(prediction) || !hasScore(result)) return "";
+  const { exact, tendency } = scoreMatch(prediction, result);
+  if (exact) return "is-exact";
+  if (tendency) return "is-tendency";
+  return "is-miss";
+}
+
+function renderMatrix() {
+  const hasPlayers = state.players.length > 0;
+  els.matrixEmpty.hidden = hasPlayers;
+  document.querySelector("#matrix-tabs").hidden = !hasPlayers;
+  els.matrixMatches.hidden = !hasPlayers;
+  els.matrixGroups.hidden = !hasPlayers;
+  els.matrixStages.hidden = !hasPlayers;
+  if (!hasPlayers) {
+    els.matrixMatches.innerHTML = "";
+    els.matrixGroups.innerHTML = "";
+    els.matrixStages.innerHTML = "";
+    return;
+  }
+
+  els.matrixMatches.innerHTML = renderMatrixMatches();
+  els.matrixGroups.innerHTML = renderMatrixGroups();
+  els.matrixStages.innerHTML = renderMatrixStages();
+}
+
+function matrixPlayerHeaders() {
+  return state.players.map((player) => `<th class="matrix-player">${escapeHtml(player.name)}</th>`).join("");
+}
+
+function renderMatrixMatches() {
+  const legend = `
+    <div class="auto-note matrix-legend">
+      <span class="legend-item"><i class="swatch is-exact"></i> Exaktes Ergebnis</span>
+      <span class="legend-item"><i class="swatch is-tendency"></i> Richtige Tendenz</span>
+      <span class="legend-item"><i class="swatch is-miss"></i> Daneben</span>
+    </div>
+  `;
+
+  const groups = WORLD_CUP_DATA.groups
+    .map((group) => {
+      const rows = matches
+        .filter((match) => match.groupId === group.id)
+        .map((match) => {
+          const result = state.results.matches[match.id];
+          const cells = state.players
+            .map((player) => {
+              const tip = state.predictions[player.id]?.matches?.[match.id];
+              return `<td class="matrix-cell ${matchHitClass(tip, result)}">${formatScore(tip)}</td>`;
+            })
+            .join("");
+          return `
+            <tr>
+              <th class="matrix-fixed" scope="row">
+                <span class="matrix-fixture">${teamName(match.homeId)} <em>:</em> ${teamName(match.awayId)}</span>
+              </th>
+              <td class="matrix-result">${formatScore(result)}</td>
+              ${cells}
+            </tr>
+          `;
+        })
+        .join("");
+
+      return `
+        <section class="group-block">
+          <h3>Gruppe ${group.id}</h3>
+          <div class="matrix-scroll">
+            <table class="matrix-table">
+              <thead>
+                <tr>
+                  <th class="matrix-fixed">Begegnung</th>
+                  <th class="matrix-result">Ergebnis</th>
+                  ${matrixPlayerHeaders()}
+                </tr>
+              </thead>
+              <tbody>${rows}</tbody>
+            </table>
+          </div>
+        </section>
+      `;
+    })
+    .join("");
+
+  return legend + groups;
+}
+
+function renderMatrixGroups() {
+  const rows = WORLD_CUP_DATA.groups
+    .map((group) => {
+      const result = state.results.groupWinners[group.id];
+      const cells = state.players
+        .map((player) => {
+          const tip = state.predictions[player.id]?.groupWinners?.[group.id];
+          const hit = tip && result ? (tip === result ? "is-exact" : "is-miss") : "";
+          return `<td class="matrix-cell ${hit}">${tip ? teamName(tip) : "–"}</td>`;
+        })
+        .join("");
+      return `
+        <tr>
+          <th class="matrix-fixed" scope="row">Gruppe ${group.id}</th>
+          <td class="matrix-result">${result ? teamName(result) : "–"}</td>
+          ${cells}
+        </tr>
+      `;
+    })
+    .join("");
+
+  return `
+    <section class="group-block">
+      <h3>Gruppensieger</h3>
+      <div class="matrix-scroll">
+        <table class="matrix-table">
+          <thead>
+            <tr>
+              <th class="matrix-fixed">Gruppe</th>
+              <th class="matrix-result">Ergebnis</th>
+              ${matrixPlayerHeaders()}
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    </section>
+  `;
+}
+
+function renderMatrixStages() {
+  return `
+    <div class="stage-grid">
+      ${WORLD_CUP_DATA.stageMeta
+        .map((stage) => {
+          const actual = new Set(state.results.stages[stage.id] || []);
+          const rows = state.players
+            .map((player) => {
+              const picks = state.predictions[player.id]?.stages?.[stage.id] || [];
+              const chips = picks.length
+                ? picks
+                    .map((teamId) => `<span class="viewer-chip ${actual.has(teamId) ? "is-hit" : ""}">${teamName(teamId)}</span>`)
+                    .join("")
+                : `<span class="empty-inline">Kein Tipp</span>`;
+              return `
+                <tr>
+                  <th class="matrix-fixed" scope="row">${escapeHtml(player.name)}</th>
+                  <td><div class="viewer-chip-list">${chips}</div></td>
+                </tr>
+              `;
+            })
+            .join("");
+
+          return `
+            <section class="stage-block">
+              <div class="stage-head">
+                <h3>${stage.label}</h3>
+                <span>${stage.size} Teams</span>
+              </div>
+              <table class="matrix-stage-table">
+                <tbody>${rows}</tbody>
+              </table>
             </section>
           `;
         })
@@ -1170,6 +1370,9 @@ document.addEventListener("click", (event) => {
   const viewerTab = event.target.closest("[data-viewer-tab]");
   if (viewerTab) switchTab("viewer", viewerTab.dataset.viewerTab);
 
+  const matrixTab = event.target.closest("[data-matrix-tab]");
+  if (matrixTab) switchTab("matrix", matrixTab.dataset.matrixTab);
+
   const bracketWinner = event.target.closest("[data-bracket-winner]");
   if (bracketWinner) {
     setBracketWinner(bracketWinner.dataset.sourceStage, Number(bracketWinner.dataset.pairIndex), bracketWinner.dataset.bracketWinner);
@@ -1303,7 +1506,24 @@ els.activePlayer.addEventListener("change", () => {
 
 els.viewerPlayer.addEventListener("change", () => {
   els.viewerPlayer.dataset.selected = els.viewerPlayer.value;
+  updateViewerHash(els.viewerPlayer.value);
   renderViewer();
+});
+
+els.shareViewer.addEventListener("click", async () => {
+  if (!els.viewerPlayer.value) return;
+  const shareUrl = buildViewerShareUrl();
+  const original = els.shareViewer.textContent;
+  try {
+    await navigator.clipboard.writeText(shareUrl);
+    els.shareViewer.textContent = "Link kopiert!";
+  } catch {
+    window.prompt("Link zum Teilen:", shareUrl);
+    return;
+  }
+  setTimeout(() => {
+    els.shareViewer.textContent = original;
+  }, 1800);
 });
 
 els.playerForm.addEventListener("submit", (event) => {

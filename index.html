@@ -22,6 +22,7 @@
           <button class="nav-button is-active" type="button" data-view="dashboard">Übersicht</button>
           <button class="nav-button" type="button" data-view="submit">Tippabgabe</button>
           <button class="nav-button" type="button" data-view="viewer">Tipps ansehen</button>
+          <button class="nav-button" type="button" data-view="matrix">Alle Tipps</button>
           <button class="nav-button" type="button" data-view="players" data-admin-only hidden>Teilnehmer</button>
           <button class="nav-button" type="button" data-view="predictions" data-admin-only hidden>Tipps</button>
           <button class="nav-button" type="button" data-view="results" data-admin-only hidden>Ergebnisse</button>
@@ -120,10 +121,13 @@
               <p class="eyebrow">Mitspieler</p>
               <h2 id="viewer-title">Tipps ansehen</h2>
             </div>
-            <label class="viewer-select">
-              <span>Teilnehmer</span>
-              <select id="viewer-player"></select>
-            </label>
+            <div class="viewer-controls">
+              <label class="viewer-select">
+                <span>Teilnehmer</span>
+                <select id="viewer-player"></select>
+              </label>
+              <button class="ghost-button" id="share-viewer" type="button">Link kopieren</button>
+            </div>
           </div>
           <div class="notice" id="viewer-empty">Noch keine Teilnehmer importiert.</div>
           <div id="viewer-content">
@@ -136,6 +140,24 @@
             <div class="tab-panel" id="viewer-groups"></div>
             <div class="tab-panel" id="viewer-stages"></div>
           </div>
+        </section>
+
+        <section class="view" id="view-matrix" aria-labelledby="matrix-title">
+          <div class="page-header">
+            <div>
+              <p class="eyebrow">Gesamtübersicht</p>
+              <h2 id="matrix-title">Alle Tipps</h2>
+            </div>
+          </div>
+          <div class="notice" id="matrix-empty">Noch keine Teilnehmer importiert.</div>
+          <div class="tabs" id="matrix-tabs" role="tablist">
+            <button class="tab is-active" type="button" data-matrix-tab="matches">Vorrunde</button>
+            <button class="tab" type="button" data-matrix-tab="groups">Gruppensieger</button>
+            <button class="tab" type="button" data-matrix-tab="stages">K.-o.-Runden</button>
+          </div>
+          <div class="tab-panel is-active" id="matrix-matches"></div>
+          <div class="tab-panel" id="matrix-groups"></div>
+          <div class="tab-panel" id="matrix-stages"></div>
         </section>
 
         <section class="view" id="view-predictions" aria-labelledby="predictions-title">
