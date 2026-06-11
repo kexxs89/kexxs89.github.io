@@ -690,7 +690,7 @@ function renderMatrixMatches() {
           return `
             <tr>
               <th class="matrix-fixed" scope="row">
-                <span class="matrix-fixture">${teamName(match.homeId)} <em>:</em> ${teamName(match.awayId)}</span>
+                <span class="matrix-fixture">${matrixTeam(match.homeId)} <em>:</em> ${matrixTeam(match.awayId)}</span>
               </th>
               <td class="matrix-result">${formatScore(result)}</td>
               ${cells}
@@ -1149,6 +1149,13 @@ function teamName(teamId) {
   const team = teamById[teamId];
   if (!team) return "Unbekannt";
   return `${flagByTeamId[teamId] || "🏳️"} ${team.name}`;
+}
+
+function matrixTeam(teamId) {
+  const team = teamById[teamId];
+  const flag = flagByTeamId[teamId] || "🏳️";
+  const name = team ? team.name : "Unbekannt";
+  return `<span class="mx-team"><span class="mx-flag">${flag}</span><span class="mx-name">${escapeHtml(name)}</span></span>`;
 }
 
 function calculateGroupTables(scoreMap) {

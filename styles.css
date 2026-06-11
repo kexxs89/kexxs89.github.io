@@ -479,6 +479,18 @@ tr:last-child td {
   color: var(--muted);
 }
 
+.matrix-fixture {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.matrix-fixture .mx-team {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
 .matrix-fixture em {
   margin: 0 4px;
   color: var(--muted);
@@ -828,5 +840,18 @@ tr:last-child td {
 
   .match-table td:first-child {
     display: none;
+  }
+
+  .matrix-table th,
+  .matrix-table td {
+    padding: 8px 10px;
+  }
+
+  .matrix-fixture .mx-name {
+    display: none;
+  }
+
+  .matrix-fixture .mx-flag {
+    font-size: 1.15rem;
   }
 }
