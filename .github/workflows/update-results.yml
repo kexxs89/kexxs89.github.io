@@ -4,6 +4,8 @@ on:
   schedule:
     - cron: "7,37 * * * *" # at :07 and :37 (off-peak minutes; GitHub may still delay or skip runs under load)
   workflow_dispatch:
+  repository_dispatch:
+    types: [update-results] # triggered by an external scheduler for reliable timing
 
 permissions:
   contents: write
