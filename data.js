@@ -35,3 +35,5 @@ const WORLD_CUP_DATA = {
     { id: "champion", label: "Weltmeister", size: 1 },
   ],
 };
+
+if (typeof module !== "undefined") module.exports = { WORLD_CUP_DATA };

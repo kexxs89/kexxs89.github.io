@@ -1,0 +1,35 @@
+name: Update WM results
+
+on:
+  schedule:
+    - cron: "*/30 * * * *" # every 30 min (UTC; GitHub may delay or skip runs under load)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-results
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Fetch & merge results
+        run: node scripts/update-results.js
+      - name: Commit if changed
+        run: |
+          if git diff --quiet -- tippspiel-state.json; then
+            echo "No result changes."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add tippspiel-state.json
+            git commit -m "chore: auto-update match results [skip ci]"
+            git push
+          fi
