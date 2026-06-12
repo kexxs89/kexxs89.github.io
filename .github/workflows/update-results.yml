@@ -2,7 +2,7 @@ name: Update WM results
 
 on:
   schedule:
-    - cron: "*/30 * * * *" # every 30 min (UTC; GitHub may delay or skip runs under load)
+    - cron: "7,37 * * * *" # at :07 and :37 (off-peak minutes; GitHub may still delay or skip runs under load)
   workflow_dispatch:
 
 permissions:
