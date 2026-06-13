@@ -5052,6 +5052,10 @@
       "D1": {
         "home": 4,
         "away": 1
+      },
+      "B2": {
+        "home": 1,
+        "away": 1
       }
     },
     "groupWinners": {},
