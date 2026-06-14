@@ -5068,6 +5068,10 @@
       "C2": {
         "home": 0,
         "away": 1
+      },
+      "E1": {
+        "home": 7,
+        "away": 1
       }
     },
     "groupWinners": {},
