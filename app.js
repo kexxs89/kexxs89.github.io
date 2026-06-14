@@ -1563,6 +1563,7 @@ async function loadResultsFromFeed() {
     render();
 
     const parts = [`${stats.applied} Ergebnis(se) übernommen.`];
+    if (stats.preserved) parts.push(`${stats.preserved} bereits eingetragene Ergebnis(se) wurden nicht überschrieben.`);
     if (stats.live) parts.push(`${stats.live} Spiel(e) laufen noch und wurden übersprungen.`);
     if (stats.unmatchedTeams) parts.push(`${stats.unmatchedTeams} Begegnung(en) ohne Teamzuordnung übersprungen.`);
     parts.push("Vergiss nicht, danach die JSON-Datei zu erstellen und ins Repository zu laden.");

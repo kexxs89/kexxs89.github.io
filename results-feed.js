@@ -130,7 +130,10 @@
       stages: { ...(base.stages || {}) },
     };
 
-    const stats = { applied: 0, live: 0, unmatchedTeams: 0 };
+    const stats = { applied: 0, live: 0, unmatchedTeams: 0, preserved: 0 };
+
+    const hasExistingResult = (entry) =>
+      entry && Number.isFinite(Number(entry.home)) && Number.isFinite(Number(entry.away));
 
     (events || []).forEach((event) => {
       const homeId = teamIdByFeedName[normalizeFeedName(event.strHomeTeam)];
@@ -142,6 +145,12 @@
 
       const match = matchByTeamPair[[homeId, awayId].sort().join("|")];
       if (!match) return; // Not a group-stage fixture (e.g. a knockout match).
+
+      // Never overwrite a result that is already entered.
+      if (hasExistingResult(nextResults.matches[match.id])) {
+        stats.preserved += 1;
+        return;
+      }
 
       const rawHome = event.intHomeScore;
       const rawAway = event.intAwayScore;

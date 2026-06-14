@@ -23,7 +23,7 @@ const { RESULTS_FEED_URL, mergeFeedResults } = require("../results-feed.js");
 
   // Match the format produced by the in-app export (downloadState) to keep diffs minimal.
   fs.writeFileSync(statePath, JSON.stringify(state, null, 2));
-  console.log(`applied=${stats.applied} live=${stats.live} unmatched=${stats.unmatchedTeams}`);
+  console.log(`applied=${stats.applied} preserved=${stats.preserved} live=${stats.live} unmatched=${stats.unmatchedTeams}`);
 })().catch((error) => {
   console.error(error);
   process.exit(1);
