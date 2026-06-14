@@ -4,18 +4,16 @@
 const fs = require("fs");
 const path = require("path");
 const { WORLD_CUP_DATA } = require("../data.js");
-const { RESULTS_FEED_URL, mergeFeedResults } = require("../results-feed.js");
+const { fetchFeedEvents, mergeFeedResults } = require("../results-feed.js");
 
 (async () => {
   const statePath = path.join(__dirname, "..", "tippspiel-state.json");
   const state = JSON.parse(fs.readFileSync(statePath, "utf8"));
 
-  const response = await fetch(`${RESULTS_FEED_URL}&_=${Date.now()}`);
-  if (!response.ok) throw new Error(`HTTP ${response.status}`);
-  const data = await response.json();
+  const events = await fetchFeedEvents();
 
   const { results, stats } = mergeFeedResults({
-    events: data.events || [],
+    events,
     results: state.results,
     worldCupData: WORLD_CUP_DATA,
   });

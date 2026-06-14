@@ -1551,11 +1551,9 @@ async function loadResultsFromFeed() {
   button.textContent = "Lade Ergebnisse …";
 
   try {
-    const response = await fetch(`${RESULTS_FEED_URL}&_=${Date.now()}`, { cache: "no-store" });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const data = await response.json();
+    const events = await fetchFeedEvents();
     const { results, stats } = mergeFeedResults({
-      events: data.events || [],
+      events,
       results: state.results,
       worldCupData: WORLD_CUP_DATA,
     });

@@ -10,7 +10,13 @@
     Object.assign(root, api);
   }
 })(typeof globalThis !== "undefined" ? globalThis : this, function () {
-  const RESULTS_FEED_URL = "https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4429&s=2026";
+  const LEAGUE_ID = "4429";
+  // Full-season feed: complete, but the free tier's cache lags behind reality.
+  const RESULTS_FEED_URL = `https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=${LEAGUE_ID}&s=2026`;
+  // Per-day feed: fresher than the season cache, but capped on the free tier and
+  // not filterable by league (we post-filter by idLeague). Used to top up the
+  // season feed with just-finished matches.
+  const EVENTS_DAY_URL = "https://www.thesportsdb.com/api/v1/json/3/eventsday.php";
 
   // Order of the six group matches per group (team indices within the group).
   const GROUP_PAIRINGS = [
@@ -173,5 +179,64 @@
     return { results: nextResults, stats };
   }
 
-  return { RESULTS_FEED_URL, GROUP_PAIRINGS, buildMatches, mergeFeedResults };
+  function feedEventHasScore(event) {
+    return (
+      event &&
+      event.intHomeScore !== null && event.intHomeScore !== "" &&
+      event.intAwayScore !== null && event.intAwayScore !== ""
+    );
+  }
+
+  // Merge events from several feeds into one deduplicated list. Events tagged
+  // with a different league are dropped; duplicates (same idEvent, or same
+  // teams+date) are collapsed, preferring the entry that already carries a score.
+  function combineFeedEvents(events) {
+    const byKey = new Map();
+    (events || []).forEach((event) => {
+      if (!event) return;
+      if (event.idLeague && String(event.idLeague) !== LEAGUE_ID) return;
+      const key = event.idEvent || `${event.strHomeTeam}|${event.strAwayTeam}|${event.dateEvent}`;
+      const existing = byKey.get(key);
+      if (!existing || (feedEventHasScore(event) && !feedEventHasScore(existing))) {
+        byKey.set(key, event);
+      }
+    });
+    return [...byKey.values()];
+  }
+
+  // Fetch the season feed (required base) plus the last few day-feeds (best
+  // effort) and return a combined, deduplicated event list. The season feed is
+  // complete but cache-lagged; the day feeds top it up with fresh results.
+  async function fetchFeedEvents({ fetchImpl, now = new Date(), days = 2 } = {}) {
+    const doFetch = fetchImpl || (typeof fetch !== "undefined" ? fetch : null);
+    if (!doFetch) throw new Error("No fetch implementation available.");
+    const cacheBust = `_=${Date.now()}`;
+
+    const seasonResponse = await doFetch(`${RESULTS_FEED_URL}&${cacheBust}`, { cache: "no-store" });
+    if (!seasonResponse.ok) throw new Error(`HTTP ${seasonResponse.status}`);
+    const seasonEvents = (await seasonResponse.json()).events || [];
+
+    const dayUrls = [];
+    for (let offset = 0; offset <= days; offset += 1) {
+      const day = new Date(now);
+      day.setUTCDate(day.getUTCDate() - offset);
+      dayUrls.push(`${EVENTS_DAY_URL}?d=${day.toISOString().slice(0, 10)}&s=Soccer&${cacheBust}`);
+    }
+
+    const dayLists = await Promise.all(
+      dayUrls.map(async (url) => {
+        try {
+          const response = await doFetch(url, { cache: "no-store" });
+          if (!response.ok) return [];
+          return (await response.json()).events || [];
+        } catch {
+          return [];
+        }
+      }),
+    );
+
+    return combineFeedEvents([...seasonEvents, ...dayLists.flat()]);
+  }
+
+  return { RESULTS_FEED_URL, GROUP_PAIRINGS, buildMatches, mergeFeedResults, combineFeedEvents, fetchFeedEvents };
 });
