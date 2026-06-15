@@ -5088,6 +5088,10 @@
       "H1": {
         "home": 0,
         "away": 0
+      },
+      "G1": {
+        "home": 1,
+        "away": 1
       }
     },
     "groupWinners": {},
