@@ -5084,6 +5084,10 @@
       "F2": {
         "home": 5,
         "away": 1
+      },
+      "H1": {
+        "home": 0,
+        "away": 0
       }
     },
     "groupWinners": {},
