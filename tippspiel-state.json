@@ -5072,6 +5072,10 @@
       "E1": {
         "home": 7,
         "away": 1
+      },
+      "E2": {
+        "home": 1,
+        "away": 0
       }
     },
     "groupWinners": {},
