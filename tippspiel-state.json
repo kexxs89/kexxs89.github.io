@@ -5092,6 +5092,14 @@
       "G1": {
         "home": 1,
         "away": 1
+      },
+      "G2": {
+        "home": 2,
+        "away": 2
+      },
+      "H2": {
+        "home": 1,
+        "away": 1
       }
     },
     "groupWinners": {},
