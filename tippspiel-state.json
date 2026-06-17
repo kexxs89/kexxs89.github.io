@@ -5100,6 +5100,22 @@
       "H2": {
         "home": 1,
         "away": 1
+      },
+      "J1": {
+        "home": 3,
+        "away": 0
+      },
+      "J2": {
+        "home": 3,
+        "away": 1
+      },
+      "I1": {
+        "home": 3,
+        "away": 1
+      },
+      "I2": {
+        "home": 1,
+        "away": 4
       }
     },
     "groupWinners": {},
