@@ -5104,6 +5104,10 @@
       "I1": {
         "home": 3,
         "away": 1
+      },
+      "J1": {
+        "home": 3,
+        "away": 0
       }
     },
     "groupWinners": {},
