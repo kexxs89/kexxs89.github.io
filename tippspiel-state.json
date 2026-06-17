@@ -5116,6 +5116,10 @@
       "I2": {
         "home": 1,
         "away": 4
+      },
+      "L1": {
+        "home": 4,
+        "away": 2
       }
     },
     "groupWinners": {},
