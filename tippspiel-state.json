@@ -5124,6 +5124,14 @@
       "K2": {
         "home": 1,
         "away": 3
+      },
+      "L2": {
+        "home": 1,
+        "away": 0
+      },
+      "K1": {
+        "home": 1,
+        "away": 1
       }
     },
     "groupWinners": {},
