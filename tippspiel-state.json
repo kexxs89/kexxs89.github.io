@@ -5120,6 +5120,10 @@
       "L1": {
         "home": 4,
         "away": 2
+      },
+      "K2": {
+        "home": 1,
+        "away": 3
       }
     },
     "groupWinners": {},
