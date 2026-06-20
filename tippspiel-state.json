@@ -5160,6 +5160,10 @@
       "C3": {
         "home": 3,
         "away": 0
+      },
+      "D4": {
+        "home": 0,
+        "away": 1
       }
     },
     "groupWinners": {},
