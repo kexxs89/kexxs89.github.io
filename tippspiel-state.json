@@ -5172,6 +5172,10 @@
       "E4": {
         "home": 0,
         "away": 0
+      },
+      "F4": {
+        "home": 0,
+        "away": 4
       }
     },
     "groupWinners": {},
