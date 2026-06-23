@@ -5204,6 +5204,14 @@
       "I4": {
         "home": 3,
         "away": 2
+      },
+      "I3": {
+        "home": 3,
+        "away": 0
+      },
+      "J4": {
+        "home": 1,
+        "away": 2
       }
     },
     "groupWinners": {},
