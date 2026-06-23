@@ -5200,6 +5200,10 @@
       "J3": {
         "home": 2,
         "away": 0
+      },
+      "I4": {
+        "home": 3,
+        "away": 2
       }
     },
     "groupWinners": {},
