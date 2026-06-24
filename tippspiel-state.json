@@ -5228,6 +5228,10 @@
       "K4": {
         "home": 1,
         "away": 0
+      },
+      "B5": {
+        "home": 2,
+        "away": 1
       }
     },
     "groupWinners": {},
