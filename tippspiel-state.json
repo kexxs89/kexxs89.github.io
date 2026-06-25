@@ -5254,7 +5254,11 @@
         "away": 1
       }
     },
-    "groupWinners": {},
+    "groupWinners": {
+      "A": "A1",
+      "B": "B4",
+      "C": "C1"
+    },
     "stages": {}
   },
   "scoring": {
