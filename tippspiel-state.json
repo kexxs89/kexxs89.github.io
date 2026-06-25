@@ -5229,9 +5229,9 @@
         "home": 1,
         "away": 0
       },
-      "B5": {
-        "home": 2,
-        "away": 1
+      "A6": {
+        "home": 1,
+        "away": 0
       },
       "C6": {
         "home": 4,
@@ -5241,9 +5241,17 @@
         "home": 0,
         "away": 3
       },
-      "A6": {
-        "home": 1,
-        "away": 0
+      "B5": {
+        "home": 2,
+        "away": 1
+      },
+      "A5": {
+        "home": 0,
+        "away": 3
+      },
+      "B6": {
+        "home": 3,
+        "away": 1
       }
     },
     "groupWinners": {},
