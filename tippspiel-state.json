@@ -5240,6 +5240,10 @@
       "C5": {
         "home": 0,
         "away": 3
+      },
+      "A6": {
+        "home": 1,
+        "away": 0
       }
     },
     "groupWinners": {},
