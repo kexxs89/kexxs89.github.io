@@ -5264,7 +5264,7 @@
   "scoring": {
     "tendency": 1,
     "exactScore": 3,
-    "groupWinner": 3,
+    "groupWinner": 1,
     "stages": {
       "round32": 1,
       "round16": 2,
