@@ -5260,6 +5260,10 @@
       "E5": {
         "home": 2,
         "away": 1
+      },
+      "D6": {
+        "home": 0,
+        "away": 0
       }
     },
     "groupWinners": {
