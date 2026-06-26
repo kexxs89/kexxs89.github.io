@@ -5276,6 +5276,10 @@
       "D5": {
         "home": 3,
         "away": 2
+      },
+      "I5": {
+        "home": 1,
+        "away": 4
       }
     },
     "groupWinners": {
