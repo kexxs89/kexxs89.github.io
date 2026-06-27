@@ -5280,6 +5280,10 @@
       "I5": {
         "home": 1,
         "away": 4
+      },
+      "H6": {
+        "home": 0,
+        "away": 0
       }
     },
     "groupWinners": {
