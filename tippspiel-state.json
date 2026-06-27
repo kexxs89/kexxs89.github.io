@@ -5284,6 +5284,10 @@
       "H6": {
         "home": 0,
         "away": 0
+      },
+      "G5": {
+        "home": 1,
+        "away": 5
       }
     },
     "groupWinners": {
