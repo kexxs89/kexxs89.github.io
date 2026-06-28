@@ -5292,6 +5292,14 @@
       "G6": {
         "home": 1,
         "away": 1
+      },
+      "J6": {
+        "home": 3,
+        "away": 3
+      },
+      "J5": {
+        "home": 1,
+        "away": 3
       }
     },
     "groupWinners": {
