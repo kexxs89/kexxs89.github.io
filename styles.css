@@ -736,6 +736,30 @@ tr:last-child td {
   margin-bottom: 12px;
 }
 
+.stage-collapsible > .stage-head {
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.stage-collapsible > .stage-head::-webkit-details-marker {
+  display: none;
+}
+
+.stage-collapsible > .stage-head h3::before {
+  content: "▶ ";
+  font-size: 0.75em;
+  color: var(--muted);
+}
+
+.stage-collapsible[open] > .stage-head h3::before {
+  content: "▼ ";
+}
+
+.stage-collapsible:not([open]) > .stage-head {
+  margin-bottom: 0;
+}
+
 .stage-head span {
   color: var(--muted);
   font-weight: 800;

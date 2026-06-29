@@ -767,15 +767,15 @@ function renderMatrixStages() {
             .join("");
 
           return `
-            <section class="stage-block">
-              <div class="stage-head">
+            <details class="stage-block stage-collapsible">
+              <summary class="stage-head">
                 <h3>${stage.label}</h3>
                 <span>${stage.size} Teams</span>
-              </div>
+              </summary>
               <table class="matrix-stage-table">
                 <tbody>${rows}</tbody>
               </table>
-            </section>
+            </details>
           `;
         })
         .join("")}
