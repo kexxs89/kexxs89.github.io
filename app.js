@@ -744,8 +744,12 @@ function renderMatrixGroups() {
 function renderMatrixStages() {
   return `
     <div class="stage-grid">
-      ${WORLD_CUP_DATA.stageMeta
-        .map((stage) => {
+      ${(() => {
+        let lastActiveIdx = -1;
+        WORLD_CUP_DATA.stageMeta.forEach((stage, i) => {
+          if ((state.results.stages[stage.id] || []).length > 0) lastActiveIdx = i;
+        });
+        return WORLD_CUP_DATA.stageMeta.map((stage, idx) => {
           const actual = new Set(state.results.stages[stage.id] || []);
           const rows = state.players
             .map((player) => {
@@ -766,8 +770,9 @@ function renderMatrixStages() {
             })
             .join("");
 
+          const isOpen = idx === lastActiveIdx;
           return `
-            <details class="stage-block stage-collapsible">
+            <details class="stage-block stage-collapsible"${isOpen ? " open" : ""}>
               <summary class="stage-head">
                 <h3>${stage.label}</h3>
                 <span>${stage.size} Teams</span>
@@ -778,7 +783,8 @@ function renderMatrixStages() {
             </details>
           `;
         })
-        .join("")}
+        .join("");
+      })()}
     </div>
   `;
 }
