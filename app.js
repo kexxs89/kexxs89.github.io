@@ -750,6 +750,8 @@ function renderMatrixStages() {
           const rows = state.players
             .map((player) => {
               const picks = state.predictions[player.id]?.stages?.[stage.id] || [];
+              const hitCount = actual.size > 0 ? picks.filter((t) => actual.has(t)).length : 0;
+              const scoreLabel = actual.size > 0 ? ` <span class="muted">(${hitCount}/${stage.size})</span>` : "";
               const chips = picks.length
                 ? picks
                     .map((teamId) => `<span class="viewer-chip ${actual.has(teamId) ? "is-hit" : ""}">${teamName(teamId)}</span>`)
@@ -757,7 +759,7 @@ function renderMatrixStages() {
                 : `<span class="empty-inline">Kein Tipp</span>`;
               return `
                 <tr>
-                  <th class="matrix-fixed" scope="row">${escapeHtml(player.name)}</th>
+                  <th class="matrix-fixed" scope="row">${escapeHtml(player.name)}${scoreLabel}</th>
                   <td><div class="viewer-chip-list">${chips}</div></td>
                 </tr>
               `;

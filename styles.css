@@ -854,4 +854,34 @@ tr:last-child td {
   .matrix-fixture .mx-flag {
     font-size: 1.15rem;
   }
+
+  .matrix-stage-table,
+  .matrix-stage-table tbody,
+  .matrix-stage-table tr,
+  .matrix-stage-table th,
+  .matrix-stage-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .matrix-stage-table .matrix-fixed {
+    width: auto;
+    padding: 8px 10px 4px;
+    border-bottom: 0;
+    font-size: 0.88rem;
+  }
+
+  .matrix-stage-table td {
+    padding: 4px 10px 10px;
+  }
+
+  .matrix-stage-table tr + tr .matrix-fixed {
+    border-top: 1px solid var(--line);
+  }
+
+  .matrix-stage-table .viewer-chip {
+    font-size: 0.82rem;
+    min-height: 28px;
+    padding: 4px 8px;
+  }
 }
